@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EZRA PICKS 韓日算價器</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app" data-country="jp">
+
+  <header>
+    <img class="logo" src="image/logo.png" alt="EZRA PICKS">
+    <div class="switch" role="tablist" aria-label="選擇代購國家">
+      <button type="button" data-c="jp" aria-pressed="true" role="tab">JP日本代購</button>
+      <button type="button" data-c="kr" aria-pressed="false" role="tab">KR韓國代購</button>
+    </div>
+  </header>
+
+  <section class="calc">
+    <h2 id="calc-title">日本代購報價試算</h2>
+
+    <div id="kr-mode-wrap" hidden>
+      <div class="seg" role="tablist" aria-label="韓國報價方式">
+        <button type="button" data-m="general" aria-pressed="true">一般商品<span class="sub">韓幣計價</span></button>
+        <button type="button" data-m="lotte" aria-pressed="false">樂天免稅店<span class="sub">美金計價</span></button>
+      </div>
+    </div>
+
+    <label class="field-label" id="amount-label" for="amount">商品售價（日幣）</label>
+    <div class="amount-row">
+      <span class="prefix" id="currency-prefix">¥</span>
+      <input type="number" inputmode="decimal" min="0" step="any" id="amount" placeholder="輸入日本售價">
+      <button type="button" class="quote-submit" id="quote-btn">獲得報價</button>
+    </div>
+
+    <label class="chip-toggle" id="bigitem-wrap" for="bigitem">
+      <input type="checkbox" id="bigitem">
+      <span>
+        <span class="t">大體積商品（酌收 NT$300 代購費）</span>
+        <span class="d">鞋子／包包／大型禮盒／厚重衣物／寢具／<wbr>鍋具餐具組等佔空間商品</span>
+      </span>
+    </label>
+  </section>
+
+  <section class="terms-card">
+    <h2 class="terms-title">•報價注意事項</h2>
+    <div class="terms-body">
+      <div id="terms-jp">
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>一般商品報價</h4>
+        <span class="formula">日幣售價 × 1.015（手續費）× 0.23（匯率）</span>
+        <ul>
+          <li>適用：藥妝／保養品／彩妝／零食／小型生活用品／飾品配件／服飾小物等</li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>大體積商品</h4>
+        <ul>
+          <li>酌收代購費 <span class="hl">NT$300／件</span></li>
+          <li>項目：鞋子／包包／後背包／大型禮盒／大型玩偶／厚重衣物外套／寢具／鍋具餐具組／大盒裝食品／其他大型或特殊包裝商品</li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>熱門／限量商品</h4>
+        <ul>
+          <li>限量款、熱門新品、聯名商品，或需排隊搶購、指定門市購買者，<span class="hl">依難度另外報價</span></li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>其他注意事項</h4>
+        <ul>
+          <li><span class="hl">報價以下單當下實際售價為準</span></li>
+          <li><span class="hl">匯率依當次代購公告為準</span></li>
+          <li>尺寸／重量超出預期，代購費可能調整，購買前會先告知</li>
+          <li>熱門／限量商品<span class="hl-warn">不保證能購入</span></li>
+          <li>缺貨或價格異動會於購買前確認</li>
+          <li>購入後<span class="hl-warn">恕不接受個人因素取消退換</span></li>
+        </ul>
+        <p class="sign">謝謝大家的理解與配合，希望能在合理成本下持續帶回喜歡的日本商品</p>
+      </div>
+      <div id="terms-kr" hidden>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>一般商品報價</h4>
+        <span class="formula">韓幣售價 × 1.015（手續費）÷ 40（匯率）</span>
+        <ul>
+          <li>適用：藥妝／保養品／彩妝／零食／小型生活用品／飾品配件／服飾小物等</li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>樂天免稅店商品</h4>
+        <ul>
+          <li>以美金 USD 計價：<span class="hl">美金售價 × 1.015（手續費）× 33.5（匯率）</span></li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>大體積商品</h4>
+        <ul>
+          <li>酌收代購費 <span class="hl">NT$300／件</span></li>
+          <li>項目：鞋子／包包／後背包／大型禮盒／大型玩偶／厚重衣物外套／寢具／鍋具餐具組／大盒裝食品／其他大型或特殊包裝商品</li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>熱門／限量商品</h4>
+        <ul>
+          <li>限量款、熱門新品、聯名商品，或需排隊搶購、指定門市購買者，<span class="hl">依難度另外報價</span></li>
+        </ul>
+        <h4><svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>其他注意事項</h4>
+        <ul>
+          <li><span class="hl">報價以下單當下實際售價為準</span></li>
+          <li><span class="hl">匯率依當次代購公告為準</span></li>
+          <li>尺寸／重量超出預期，代購費可能調整，購買前會先告知</li>
+          <li>熱門／限量商品<span class="hl-warn">不保證能購入</span></li>
+          <li>缺貨或價格異動會於購買前確認</li>
+          <li>購入後<span class="hl-warn">恕不接受個人因素取消退換</span></li>
+        </ul>
+        <p class="sign">謝謝大家的理解與配合，希望能在合理成本下持續帶回喜歡的韓國商品</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="quote-overlay" hidden>
+  <div class="quote-wrap">
+    <div class="quote-sheet" role="dialog" aria-modal="true" aria-labelledby="quote-heading">
+      <img class="quote-art" src="image/quote.png" alt="">
+      <div class="quote-content">
+        <h2 id="quote-heading">您的商品報價是</h2>
+        <div class="quote-inner">
+          <div class="quote-total" id="result-total">NT$ 0元</div>
+          <div class="quote-sub">不含賣貨便運費</div>
+          <div class="breakdown" id="breakdown"></div>
+        </div>
+        <p class="quote-disclaimer">※僅供快速自助報價，實際金額以代購當下為準歡迎私訊確認之報價。</p>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="quote-close" id="quote-close" hidden aria-label="關閉報價">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+</button>
+
+<script src="app.js"></script>
+</body>
+</html>
