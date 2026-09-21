@@ -33,9 +33,10 @@
     <label class="field-label" id="amount-label" for="amount">商品售價（日幣）</label>
     <div class="amount-row">
       <span class="prefix" id="currency-prefix">¥</span>
-      <input type="number" inputmode="decimal" min="0" step="any" id="amount" placeholder="輸入日本售價">
+      <input type="text" inputmode="text" id="amount" enterkeyhint="done" autocomplete="off" placeholder="例：1000+2500">
       <button type="button" class="quote-submit" id="quote-btn">獲得報價</button>
     </div>
+    <div class="amount-sum" id="amount-sum" hidden>合計 <strong id="amount-sum-value">¥0</strong></div>
 
     <label class="chip-toggle" id="bigitem-wrap" for="bigitem">
       <input type="checkbox" id="bigitem">
