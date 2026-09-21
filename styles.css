@@ -243,20 +243,25 @@ header{
   font-variant-numeric: tabular-nums;
   min-width: 0;
   font-family: inherit;
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
-
-.amount-row input::-webkit-outer-spin-button,
-.amount-row input::-webkit-inner-spin-button{
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 .amount-row input:focus{ outline: none; }
 .amount-row input::placeholder{
   color: #C9C2B8;
   font-weight: 600;
+}
+
+.amount-sum{
+  width: 100%;
+  text-align: right;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 700;
+  padding-right: 6px;
+}
+
+.amount-sum strong{
+  font-size: .95rem;
 }
 
 .quote-submit{
@@ -271,7 +276,6 @@ header{
   letter-spacing: 0.02em;
   border-radius: 999px;
   padding: 9px 13px;
-  margin-right: 2px;
   cursor: pointer;
   white-space: nowrap;
 }

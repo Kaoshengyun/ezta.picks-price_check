@@ -10,6 +10,8 @@
 
   var app = document.getElementById("app");
   var amountInput = document.getElementById("amount");
+  var amountSum = document.getElementById("amount-sum");
+  var amountSumValue = document.getElementById("amount-sum-value");
   var amountLabel = document.getElementById("amount-label");
   var currencyPrefix = document.getElementById("currency-prefix");
   var calcTitle = document.getElementById("calc-title");
@@ -38,10 +40,60 @@
     };
   }
 
-  function fmtNT(n){ return "NT$ " + Math.round(n).toLocaleString("zh-Hant-TW"); }
+  function roundTo5(n){ return Math.round(n / 5) * 5; }
+  function fmtNT(n){ return "NT$ " + roundTo5(n).toLocaleString("zh-Hant-TW"); }
   function fmtSrc(n, cur){
     var sym = cur === "JPY" ? "¥" : cur === "KRW" ? "₩" : "$";
     return sym + Math.round(n).toLocaleString("zh-Hant-TW");
+  }
+
+  function getPlaceholder(){
+    if (state.country === "jp") return "例：1000+2500";
+    return state.krMode === "general" ? "例：15000+8000" : "例：20+35.5";
+  }
+
+  function sanitizeExpr(raw){
+    var s = String(raw || "").replace(/＋/g, "+").replace(/[^\d.+]/g, "");
+    s = s.replace(/^\++/, "");
+    s = s.replace(/\++/g, "+");
+    var out = "";
+    var seenDot = false;
+    for (var i = 0; i < s.length; i++) {
+      var ch = s.charAt(i);
+      if (ch === "+") {
+        seenDot = false;
+        out += ch;
+      } else if (ch === ".") {
+        if (!seenDot) {
+          seenDot = true;
+          out += ch;
+        }
+      } else {
+        out += ch;
+      }
+    }
+    return out;
+  }
+
+  function getParts(val){
+    return String(val || "").split("+").map(function(p){ return parseFloat(p); }).filter(function(n){ return n > 0; });
+  }
+
+  function getPriceTotal(){
+    return getParts(amountInput.value).reduce(function(sum, n){ return sum + n; }, 0);
+  }
+
+  function currentCurrency(){
+    if (state.country === "jp") return "JPY";
+    return state.krMode === "general" ? "KRW" : "USD";
+  }
+
+  function updateSum(){
+    var parts = getParts(amountInput.value);
+    var price = getPriceTotal();
+    var show = String(amountInput.value).indexOf("+") !== -1;
+    amountSum.hidden = !show;
+    amountSumValue.textContent = fmtSrc(price, currentCurrency());
   }
 
   function openQuote(){
@@ -60,7 +112,7 @@
 
   function requestQuote(){
     recalc();
-    var price = parseFloat(amountInput.value);
+    var price = getPriceTotal();
     if (!price || price <= 0) {
       amountInput.focus();
       return;
@@ -81,7 +133,7 @@
       krModeWrap.hidden = true;
       amountLabel.textContent = "商品售價（日幣）";
       currencyPrefix.textContent = "¥";
-      amountInput.placeholder = "輸入日本售價";
+      amountInput.placeholder = getPlaceholder();
       termsJp.hidden = false;
       termsKr.hidden = true;
     } else {
@@ -91,6 +143,7 @@
       termsJp.hidden = true;
       termsKr.hidden = false;
     }
+    updateSum();
     bigItemWrap.classList.toggle("on", bigItemCheckbox.checked);
   }
 
@@ -98,12 +151,12 @@
     if (state.krMode === "general") {
       amountLabel.textContent = "商品售價（韓幣）";
       currencyPrefix.textContent = "₩";
-      amountInput.placeholder = "輸入韓國售價";
     } else {
       amountLabel.textContent = "商品售價（美金／樂天免稅店）";
       currencyPrefix.textContent = "$";
-      amountInput.placeholder = "輸入美金售價";
     }
+    amountInput.placeholder = getPlaceholder();
+    updateSum();
   }
 
   function setKrMode(m){
@@ -115,7 +168,7 @@
   }
 
   function recalc(){
-    var price = parseFloat(amountInput.value);
+    var price = getPriceTotal();
     var rates = getRates();
     var big = bigItemCheckbox.checked;
     bigItemWrap.classList.toggle("on", big);
@@ -145,12 +198,13 @@
     }
 
     afterFee = Math.round(afterFee);
-    converted = Math.round(converted);
+    converted = roundTo5(converted);
     var total = converted + (big ? rates.big : 0);
     resultTotal.textContent = fmtNT(total) + "元";
 
     var rows = [];
-    rows.push(["商品售價", fmtSrc(price, cur)]);
+    var itemCount = getParts(amountInput.value).length;
+    rows.push([itemCount > 1 ? "商品售價合計（" + itemCount + " 項）" : "商品售價", fmtSrc(price, cur)]);
     rows.push(["刷卡手續費 +" + (rates.fee * 100).toFixed(1) + "%", fmtSrc(afterFee, cur)]);
     rows.push(["匯率換算 " + rateLabel, fmtNT(converted)]);
     if (big) rows.push(["大體積代購費", "+ " + fmtNT(rates.big)]);
@@ -167,6 +221,11 @@
     b.addEventListener("click", function(){ setKrMode(b.getAttribute("data-m")); });
   });
   quoteBtn.addEventListener("click", requestQuote);
+  amountInput.addEventListener("input", function(){
+    var cleaned = sanitizeExpr(amountInput.value);
+    if (cleaned !== amountInput.value) amountInput.value = cleaned;
+    updateSum();
+  });
   amountInput.addEventListener("keydown", function(e){
     if (e.key === "Enter") {
       e.preventDefault();
