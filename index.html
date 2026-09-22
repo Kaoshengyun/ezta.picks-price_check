@@ -33,7 +33,7 @@
     <label class="field-label" id="amount-label" for="amount">商品售價（日幣）</label>
     <div class="amount-row">
       <span class="prefix" id="currency-prefix">¥</span>
-      <input type="text" inputmode="text" id="amount" enterkeyhint="done" autocomplete="off" placeholder="例：1000+2500">
+      <input type="text" inputmode="text" id="amount" enterkeyhint="done" autocomplete="off" placeholder="輸入商品官方售價">
       <button type="button" class="quote-submit" id="quote-btn">獲得報價</button>
     </div>
     <div class="amount-sum" id="amount-sum" hidden>合計 <strong id="amount-sum-value">¥0</strong></div>
@@ -69,6 +69,7 @@
         <ul>
           <li><span class="hl">報價以下單當下實際售價為準</span></li>
           <li><span class="hl">匯率依當次代購公告為準</span></li>
+          <li><span class="hl">非連線期間代購將略有不同，詳細報價請私訊客服</span></li>
           <li>尺寸／重量超出預期，代購費可能調整，購買前會先告知</li>
           <li>熱門／限量商品<span class="hl-warn">不保證能購入</span></li>
           <li>缺貨或價格異動會於購買前確認</li>
@@ -99,6 +100,7 @@
         <ul>
           <li><span class="hl">報價以下單當下實際售價為準</span></li>
           <li><span class="hl">匯率依當次代購公告為準</span></li>
+          <li><span class="hl">非連線期間代購將略有不同，詳細報價請私訊客服</span></li>
           <li>尺寸／重量超出預期，代購費可能調整，購買前會先告知</li>
           <li>熱門／限量商品<span class="hl-warn">不保證能購入</span></li>
           <li>缺貨或價格異動會於購買前確認</li>
@@ -124,6 +126,7 @@
         <p class="quote-disclaimer">※僅供快速自助報價，實際金額以代購當下為準歡迎私訊確認之報價。</p>
       </div>
     </div>
+    <p class="quote-period">此報價計算方式為連線期間適用</p>
   </div>
 </div>
 <button type="button" class="quote-close" id="quote-close" hidden aria-label="關閉報價">
